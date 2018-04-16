@@ -1,0 +1,64 @@
+#include<stdio.h> 
+ 
+int main() 
+{ 
+ 
+  int count,j,n,time,remain,flag=0,quantum,max=0; 
+  int Wt=0,TaT=0,at[10],bt[10],rt[10],pt[10]; 
+  printf("Enter Total Process:\t "); 
+  scanf("%d",&n); 
+  remain=n; 
+  for(count=0;count<n;count++) 
+  { 
+    printf("Enter Arrival Time for Process Process Number %d :",count+1); 
+    scanf("%d",&at[count]); 
+    printf("Enter Burst Time for Process Process Number %d :",count+1); 
+    scanf("%d",&bt[count]); 
+    printf("Enter Priority for Process Process Number %d :",count+1); 
+    scanf("%d",&pt[count]); 
+    rt[count]=bt[count]; 
+  } 
+  for(j=0;j<n;j++)
+  {
+  	if(pt[j]>max)
+  	{
+  		max=pt[j];
+	}
+  }
+  
+  printf("Enter Time Quantum:\t"); 
+  scanf("%d",&quantum); 
+  printf("\n\nProcess\t|Turnaround Time|Waiting Time|Priority\n\n"); 
+  for(time=0,count=0;remain!=0;) 
+  { 
+    if(rt[count]<=quantum && rt[count]>0 && pt[count]<=max) 
+    { 
+      time+=rt[count]; 
+      rt[count]=0; 
+      flag=1; 
+    } 
+    else if(rt[count]>0) 
+    { 
+      rt[count]-=quantum; 
+      time+=quantum; 
+    } 
+    if(rt[count]==0 && flag==1) 
+    { 
+      remain--; 
+      printf("P%d\t|\t%d\t|\t%d\n",count+1,time-at[count],time-at[count]-bt[count]); 
+      Wt+=time-at[count]-bt[count]; 
+      TaT+=time-at[count]; 
+      flag=0; 
+    } 
+    if(count==n-1) 
+      count=0; 
+    else if(at[count+1]<=time) 
+      count++; 
+    else 
+      count=0; 
+  } 
+  printf("\nAverage Waiting Time= %f\n",Wt*1.0/n); 
+  printf("Avg Turnaround Time = %f",TaT*1.0/n); 
+  
+  return 0; 
+}
