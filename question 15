@@ -1,3 +1,5 @@
+
+//multilevel feedback queue
 #include<stdio.h> 
  
 #define N 16 
